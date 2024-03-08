@@ -11,23 +11,23 @@ from sklearn.cluster import KMeans
 
 # Cargando K-Means
 vectorizadorKmeans=joblib.load("./models/vectorizer_kmeans")
-modeloKmeans=joblib.load('./models/modelo_kmeans')
-categoriasKmeans=joblib.load('./models/categorias-k-means')
+modeloKmeans=joblib.load("./models/modelo_kmeans")
+categoriasKmeans=joblib.load("./models/categorias-k-means")
 
 # Cargando LDA-Gensim
-modeloldag = joblib.load('./models/Mejor_modelo_LDA_GENSIM')
-categoriasldag = joblib.load('./models/Categorias_mejor_modelo_LDA_GENSIM')
-diccionariolda = joblib.load('./models/Diccionario_LDA_GENSIM')
+modeloldag = joblib.load("./models/Mejor_modelo_LDA_GENSIM")
+categoriasldag = joblib.load("./models/Categorias_mejor_modelo_LDA_GENSIM")
+diccionariolda = joblib.load("./models/Diccionario_LDA_GENSIM")
 
 # Cargando LDA-SKL
-vectorizerldask=joblib.load('./models/vectorizerldask')
-modeloldask = joblib.load('./models/Mejor_modelo_LDA_SKLEARN')
-categoriasldask = joblib.load('./models/Categorias_mejor_modelo_LDA_SKLEARN')
+vectorizerldask=joblib.load("./models/vectorizerldask")
+modeloldask = joblib.load("./models/Mejor_modelo_LDA_SKLEARN")
+categoriasldask = joblib.load("./models/Categorias_mejor_modelo_LDA_SKLEARN")
 
 #Cargando LSA-Gensim
-modelolsag = joblib.load('./models/Mejor_modelo_LSA_GENSIM')
-categoriaslsag = joblib.load('./models/Categorias_mejor_modelo_LSA_GENSIM')
-diccionariolsag = joblib.load('./models/Diccionario_LSA_GENSIM')
+modelolsag = joblib.load("./models/Mejor_modelo_LSA_GENSIM")
+categoriaslsag = joblib.load("./models/Categorias_mejor_modelo_LSA_GENSIM")
+diccionariolsag = joblib.load("./models/Diccionario_LSA_GENSIM")
 
 
 # Función que predice la noticia
