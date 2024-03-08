@@ -33,7 +33,7 @@ diccionariolsag = joblib.load('./models/Diccionario_LSA_GENSIM')
 # Función que predice la noticia
 def predecir_articulo(noticia):
 
-  nlp = spacy.load('es_core_news_sm', disable=['parser', 'senter', 'ner', 'attribute_ruler'])
+  nlp = spacy.load('es_core_news_lg', disable=['parser', 'senter', 'ner', 'attribute_ruler'])
 
   def limpiar(doc):
       doc_procesado = []
