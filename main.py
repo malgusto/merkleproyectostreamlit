@@ -8,6 +8,7 @@ from goose3 import Goose
 from sklearn.cluster import KMeans
 
 # from capturescreenshot import *
+st.set_page_config(page_title="Clasificador de noticias | Proyecto Merkle",page_icon="./assets/favicon.png")
 
 # Cargando K-Means
 vectorizadorKmeans=joblib.load("./models/vectorizer_kmeans")
@@ -28,7 +29,6 @@ categoriasldask = joblib.load("./models/Categorias_mejor_modelo_LDA_SKLEARN")
 modelolsag = joblib.load("./models/Mejor_modelo_LSA_GENSIM")
 categoriaslsag = joblib.load("./models/Categorias_mejor_modelo_LSA_GENSIM")
 diccionariolsag = joblib.load("./models/Diccionario_LSA_GENSIM")
-
 
 # Función que predice la noticia
 def predecir_articulo(noticia):
@@ -76,7 +76,12 @@ def predecir_articulo(noticia):
   # Categoriza la nueva noticia usando el modelo LDA
   categorias_noticia = modeloldag.get_document_topics(corpus)
   tema_principal = max(categorias_noticia, key=lambda x: x[1])[0]
-  etildag=categoriasldag[tema_principal]
+  ### HE tenido que poner esto porque da un out of range, ni idea porque
+  if tema_principal > 0:
+     etildag = categoriasldag[tema_principal - 1]
+  else:
+     etildag = categoriasldag[tema_principal]
+
   
   #############
   # LDA-SKL
@@ -99,7 +104,7 @@ def predecir_articulo(noticia):
 
   # Categoriza la nueva noticia usando el modelo LDA
   lsa_vector = modelolsag[corpus]
-  ''' Enlazarlo con las categorías '''
+  #   ''' Enlazarlo con las categorías '''
   topico_dominante = max(lsa_vector, key=lambda x: x[1])[0]
 
   etilsag=categoriaslsag[topico_dominante]
@@ -115,11 +120,23 @@ def predecir_articulo(noticia):
 
 
 # UI
-st.title("Predicción de Artículos")
+left_co, cent_co,last_co = st.columns([1,4,1])
+with cent_co:
+    st.image('./assets/merkle-logo.png',width=350)
 
+   
+st.header("¿En qué consiste el proyecto?")
+st.markdown("Este es un proyecto realizado por un grupo de alumnos del ***Curso de especializacion de Big Data e Inteligencia Artificial*** del ***I.E.S. Doctor Fleming***. En el proyecto tenemos que crear un modelo que clasifique noticias a partir de un dataframe de 50.000 noticias.")
+
+st.header("Categorizar noticia:")
 url = st.text_input("Introduzca la URL del artículo:", "")
 
-if st.button("Predecir"):
+left_co1, cent_co1,last_co1 = st.columns([1,4,1])
+with last_co1:
+    botonpredecir=st.button("Predecir")
+ 
+    
+if botonpredecir:
     if url:
         result = predecir_articulo(url)
         st.subheader("Resultados:")
