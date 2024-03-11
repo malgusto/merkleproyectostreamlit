@@ -3,7 +3,7 @@ import streamlit as st
 import joblib 
 import pandas as pd
 from sklearn.cluster import KMeans
-import spacy, es_core_news_lg
+import spacy
 from goose3 import Goose
 from sklearn.cluster import KMeans
 
