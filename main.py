@@ -7,6 +7,35 @@ import spacy, es_core_news_lg
 from goose3 import Goose
 from sklearn.cluster import KMeans
 
+# UI
+left_co, cent_co,last_co = st.columns([1,4,1])
+with cent_co:
+    st.image('./assets/merkle-logo.png',width=350)
+
+   
+st.header("¿En qué consiste el proyecto?")
+st.markdown("Este es un proyecto realizado por un grupo de alumnos del ***Curso de especializacion de Big Data e Inteligencia Artificial*** del ***I.E.S. Doctor Fleming***. En el proyecto tenemos que crear un modelo que clasifique noticias a partir de un dataframe de 50.000 noticias.")
+
+st.header("Categorizar noticia:")
+url = st.text_input("Introduzca la URL del artículo:", "")
+
+left_co1, cent_co1,last_co1 = st.columns([1,4,1])
+with last_co1:
+    botonpredecir=st.button("Predecir")
+ 
+    
+if botonpredecir:
+    if url:
+        result = predecir_articulo(url)
+        st.subheader("Resultados:")
+        st.write(f"**Título:** {result[0]}")
+        st.write(f"**Etiqueta K-Means:** {result[1]}")
+        st.write(f"**Etiqueta LDA-Gensim:** {result[2]}")
+        st.write(f"**Etiqueta LDA-SKL:** {result[3]}")
+        st.write(f"**Etiqueta LSA-Gensim:** {result[4]}")
+    else:
+        st.error("Por favor, introduzca una URL válida.")
+
 # from capturescreenshot import *
 st.set_page_config(page_title="Clasificador de noticias | Proyecto Merkle",page_icon="./assets/favicon.png")
 
@@ -119,31 +148,3 @@ def predecir_articulo(noticia):
   return datos_web
 
 
-# UI
-left_co, cent_co,last_co = st.columns([1,4,1])
-with cent_co:
-    st.image('./assets/merkle-logo.png',width=350)
-
-   
-st.header("¿En qué consiste el proyecto?")
-st.markdown("Este es un proyecto realizado por un grupo de alumnos del ***Curso de especializacion de Big Data e Inteligencia Artificial*** del ***I.E.S. Doctor Fleming***. En el proyecto tenemos que crear un modelo que clasifique noticias a partir de un dataframe de 50.000 noticias.")
-
-st.header("Categorizar noticia:")
-url = st.text_input("Introduzca la URL del artículo:", "")
-
-left_co1, cent_co1,last_co1 = st.columns([1,4,1])
-with last_co1:
-    botonpredecir=st.button("Predecir")
- 
-    
-if botonpredecir:
-    if url:
-        result = predecir_articulo(url)
-        st.subheader("Resultados:")
-        st.write(f"**Título:** {result[0]}")
-        st.write(f"**Etiqueta K-Means:** {result[1]}")
-        st.write(f"**Etiqueta LDA-Gensim:** {result[2]}")
-        st.write(f"**Etiqueta LDA-SKL:** {result[3]}")
-        st.write(f"**Etiqueta LSA-Gensim:** {result[4]}")
-    else:
-        st.error("Por favor, introduzca una URL válida.")
