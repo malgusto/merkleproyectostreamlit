@@ -10,28 +10,28 @@ from sklearn.cluster import KMeans
 # from capturescreenshot import *
 st.set_page_config(page_title="Clasificador de noticias | Proyecto Merkle",page_icon="./assets/favicon.png")
 
-@st.cache
+@st.cache_data
 def cargar_modelo_kmeans():
     vectorizadorKmeans = joblib.load("./models/vectorizer_kmeans")
     modeloKmeans = joblib.load("./models/modelo_kmeans")
     categoriasKmeans = joblib.load("./models/categorias-k-means")
     return vectorizadorKmeans, modeloKmeans, categoriasKmeans
 
-@st.cache
+@st.cache_data
 def cargar_modelo_lda_gensim():
     modeloldag = joblib.load("./models/Mejor_modelo_LDA_GENSIM")
     categoriasldag = joblib.load("./models/Categorias_mejor_modelo_LDA_GENSIM")
     diccionariolda = joblib.load("./models/Diccionario_LDA_GENSIM")
     return modeloldag, categoriasldag, diccionariolda
 
-@st.cache
+@st.cache_data
 def cargar_modelo_lda_sklearn():
     vectorizerldask = joblib.load("./models/vectorizerldask")
     modeloldask = joblib.load("./models/Mejor_modelo_LDA_SKLEARN")
     categoriasldask = joblib.load("./models/Categorias_mejor_modelo_LDA_SKLEARN")
     return vectorizerldask, modeloldask, categoriasldask
 
-@st.cache
+@st.cache_data
 def cargar_modelo_lsa_gensim():
     modelolsag = joblib.load("./models/Mejor_modelo_LSA_GENSIM")
     categoriaslsag = joblib.load("./models/Categorias_mejor_modelo_LSA_GENSIM")
