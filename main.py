@@ -7,57 +7,42 @@ import spacy, es_core_news_lg
 from goose3 import Goose
 from sklearn.cluster import KMeans
 
-# UI
-left_co, cent_co,last_co = st.columns([1,4,1])
-with cent_co:
-    st.image('./assets/merkle-logo.png',width=350)
-
-   
-st.header("¿En qué consiste el proyecto?")
-st.markdown("Este es un proyecto realizado por un grupo de alumnos del ***Curso de especializacion de Big Data e Inteligencia Artificial*** del ***I.E.S. Doctor Fleming***. En el proyecto tenemos que crear un modelo que clasifique noticias a partir de un dataframe de 50.000 noticias.")
-
-st.header("Categorizar noticia:")
-url = st.text_input("Introduzca la URL del artículo:", "")
-
-left_co1, cent_co1,last_co1 = st.columns([1,4,1])
-with last_co1:
-    botonpredecir=st.button("Predecir")
- 
-    
-if botonpredecir:
-    if url:
-        result = predecir_articulo(url)
-        st.subheader("Resultados:")
-        st.write(f"**Título:** {result[0]}")
-        st.write(f"**Etiqueta K-Means:** {result[1]}")
-        st.write(f"**Etiqueta LDA-Gensim:** {result[2]}")
-        st.write(f"**Etiqueta LDA-SKL:** {result[3]}")
-        st.write(f"**Etiqueta LSA-Gensim:** {result[4]}")
-    else:
-        st.error("Por favor, introduzca una URL válida.")
-
 # from capturescreenshot import *
 st.set_page_config(page_title="Clasificador de noticias | Proyecto Merkle",page_icon="./assets/favicon.png")
 
-# Cargando K-Means
-vectorizadorKmeans=joblib.load("./models/vectorizer_kmeans")
-modeloKmeans=joblib.load("./models/modelo_kmeans")
-categoriasKmeans=joblib.load("./models/categorias-k-means")
+@st.cache
+def cargar_modelo_kmeans():
+    vectorizadorKmeans = joblib.load("./models/vectorizer_kmeans")
+    modeloKmeans = joblib.load("./models/modelo_kmeans")
+    categoriasKmeans = joblib.load("./models/categorias-k-means")
+    return vectorizadorKmeans, modeloKmeans, categoriasKmeans
 
-# Cargando LDA-Gensim
-modeloldag = joblib.load("./models/Mejor_modelo_LDA_GENSIM")
-categoriasldag = joblib.load("./models/Categorias_mejor_modelo_LDA_GENSIM")
-diccionariolda = joblib.load("./models/Diccionario_LDA_GENSIM")
+@st.cache
+def cargar_modelo_lda_gensim():
+    modeloldag = joblib.load("./models/Mejor_modelo_LDA_GENSIM")
+    categoriasldag = joblib.load("./models/Categorias_mejor_modelo_LDA_GENSIM")
+    diccionariolda = joblib.load("./models/Diccionario_LDA_GENSIM")
+    return modeloldag, categoriasldag, diccionariolda
 
-# Cargando LDA-SKL
-vectorizerldask=joblib.load("./models/vectorizerldask")
-modeloldask = joblib.load("./models/Mejor_modelo_LDA_SKLEARN")
-categoriasldask = joblib.load("./models/Categorias_mejor_modelo_LDA_SKLEARN")
+@st.cache
+def cargar_modelo_lda_sklearn():
+    vectorizerldask = joblib.load("./models/vectorizerldask")
+    modeloldask = joblib.load("./models/Mejor_modelo_LDA_SKLEARN")
+    categoriasldask = joblib.load("./models/Categorias_mejor_modelo_LDA_SKLEARN")
+    return vectorizerldask, modeloldask, categoriasldask
 
-#Cargando LSA-Gensim
-modelolsag = joblib.load("./models/Mejor_modelo_LSA_GENSIM")
-categoriaslsag = joblib.load("./models/Categorias_mejor_modelo_LSA_GENSIM")
-diccionariolsag = joblib.load("./models/Diccionario_LSA_GENSIM")
+@st.cache
+def cargar_modelo_lsa_gensim():
+    modelolsag = joblib.load("./models/Mejor_modelo_LSA_GENSIM")
+    categoriaslsag = joblib.load("./models/Categorias_mejor_modelo_LSA_GENSIM")
+    diccionariolsag = joblib.load("./models/Diccionario_LSA_GENSIM")
+    return modelolsag, categoriaslsag, diccionariolsag
+
+# Cargar los modelos una vez al inicio de la aplicación
+vectorizadorKmeans, modeloKmeans, categoriasKmeans = cargar_modelo_kmeans()
+modeloldag, categoriasldag, diccionariolda = cargar_modelo_lda_gensim()
+vectorizerldask, modeloldask, categoriasldask = cargar_modelo_lda_sklearn()
+modelolsag, categoriaslsag, diccionariolsag = cargar_modelo_lsa_gensim()
 
 # Función que predice la noticia
 def predecir_articulo(noticia):
@@ -148,3 +133,31 @@ def predecir_articulo(noticia):
   return datos_web
 
 
+# UI
+left_co, cent_co,last_co = st.columns([1,4,1])
+with cent_co:
+    st.image('./assets/merkle-logo.png',width=350)
+
+   
+st.header("¿En qué consiste el proyecto?")
+st.markdown("Este es un proyecto realizado por un grupo de alumnos del ***Curso de especializacion de Big Data e Inteligencia Artificial*** del ***I.E.S. Doctor Fleming***. En el proyecto tenemos que crear un modelo que clasifique noticias a partir de un dataframe de 50.000 noticias.")
+
+st.header("Categorizar noticia:")
+url = st.text_input("Introduzca la URL del artículo:", "")
+
+left_co1, cent_co1,last_co1 = st.columns([1,4,1])
+with last_co1:
+    botonpredecir=st.button("Predecir")
+ 
+    
+if botonpredecir:
+    if url:
+        result = predecir_articulo(url)
+        st.subheader("Resultados:")
+        st.write(f"**Título:** {result[0]}")
+        st.write(f"**Etiqueta K-Means:** {result[1]}")
+        st.write(f"**Etiqueta LDA-Gensim:** {result[2]}")
+        st.write(f"**Etiqueta LDA-SKL:** {result[3]}")
+        st.write(f"**Etiqueta LSA-Gensim:** {result[4]}")
+    else:
+        st.error("Por favor, introduzca una URL válida.")
